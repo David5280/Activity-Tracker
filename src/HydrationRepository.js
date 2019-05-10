@@ -2,6 +2,8 @@ class HydrationRepository {
   constructor(dataFilepath) {
     this.dataFilepath = dataFilepath;
     this.hydrationData = this.findFilepath(dataFilepath)
+    // this.currentUser;
+    
   }
   getHydrationDataFromId(id) {
     return this.hydrationData.find(user => user.userID === id);
@@ -12,6 +14,9 @@ class HydrationRepository {
     } else {
       return hydrationData
     }
+  }
+  instantiateHydration() {
+    return hydrationData.map(datum => datum = new Hydration(datum.userID, datum.hydrationData));
   }
 }
 
