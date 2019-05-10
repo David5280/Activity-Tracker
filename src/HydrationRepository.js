@@ -9,7 +9,7 @@ class HydrationRepository {
     return this.hydrationData.find(user => user.userID === id);
   }
   findFilepath(dataFilepath) {
-    if(typeof module !== 'undefined') {
+    if (typeof module !== 'undefined') {
       return require(dataFilepath);
     } else {
       return hydrationData

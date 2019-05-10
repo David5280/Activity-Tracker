@@ -23,16 +23,16 @@ class UserRepository {
       let state = splitAddress.splice(stateIndex, 1).toString();
       states.push(state);
     });
-    return states.sort((a,b) =>
-    states.filter(v => v===a).length
-  - states.filter(v => v===b).length
+    return states.sort((a, b) =>
+      states.filter(v => v === a).length
+  -   states.filter(v => v === b).length
     ).pop();
   }
   findFilepath(dataFilepath) {
-    if(typeof module !== 'undefined') {
+    if (typeof module !== 'undefined') {
       return require(dataFilepath);
-  } else {
-    return userData;
+    } else {
+      return userData;
     }
   }
   instantiateUsers() {

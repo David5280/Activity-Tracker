@@ -2,12 +2,7 @@ class Hydration {
   constructor(userId, hydrationData) {
     this.id = userId;
     this.hydrationData = hydrationData;
-
-    
-
-    
   }
-    // this.currentDate = Date.now();
   getAverageFluidIntake(user) {
     return user.hydrationData.reduce((fluid, dailyIntake) => {
       fluid += dailyIntake.numOunces
@@ -30,5 +25,6 @@ class Hydration {
   }
 }
 if(typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  var moment = require('moment');
   module.exports = Hydration;
 }
