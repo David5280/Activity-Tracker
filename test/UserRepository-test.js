@@ -2,7 +2,7 @@ const chai = require('chai');
 const expect = chai.expect;
 const User = require('../src/User.js');
 const UserRepository = require('../src/UserRepository');
-// const SampleData = require('../data/sample-data')
+
 
 describe('User Repository', function() {
   let userData;
@@ -21,7 +21,7 @@ describe('User Repository', function() {
     const userRepository = new UserRepository('../data/sample-data');
     expect(userRepository).to.be.an.instanceOf(UserRepository);
   })
-  it ('should be able to take in a dataFilePath as a parameter', function (){
+  it ('should be able to take in a dataFilePath as a parameter', function () {
     const userRepository = new UserRepository('../data/sample-data');
     expect(userRepository.dataFilepath).to.equal('../data/sample-data');
 

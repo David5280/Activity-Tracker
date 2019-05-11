@@ -20,12 +20,19 @@ function compareStepGoal(user) {
 
 let instantiatedUser = users.find(item => item.id === user.id)
 
-let hydrationUserData = hydrationRepository.getHydrationDataFromId(instantiatedUser.id);
+// let hydrationUserData = hydrationRepository.getHydrationDataFromId(instantiatedUser.id);
+// // let hydrationUserDataByDate = hydrationUserData.hydrationData.find(item => item.date === todaysDate);
+// console.log(hydrationUserData)
+
 
 let instantiatedWater = waters.find(item => item.id === instantiatedUser.id)
-console.log(instantiatedWater);
+
+let hydrationIndex = instantiatedWater.hydrationData.findIndex(item => item.date === todaysDate);
 
 let fluidIntakeByDate = instantiatedWater.getFluidIntakeByDate(instantiatedWater, todaysDate);
+
+console.log(instantiatedUser);
+console.log(instantiatedWater);
 
 $(document).ready(() => {
   $('main').append( 
@@ -39,7 +46,8 @@ $(document).ready(() => {
   $('main').append( 
     "<article class='main-widget'>" +
       `<p class='main-widget__date'>Date: ${todaysDate} </p>` +
-      `<p class='main-widget__'>Number of Oz: ${fluidIntakeByDate} </p>` +
+      `<p class='main-widget__'>Number of Oz Today: ${fluidIntakeByDate} </p>` +
+      `<p class='main-widget__'>Number of Oz Last Week: ${instantiatedWater.getDailyFluidIntakeByWeek(instantiatedWater, hydrationIndex)} </p>` +
     "</article> "
   )
   $('.footer-greeting-js').append(`Hello, ${instantiatedUser.getFirstName()}!  Your daily step goal is ${compareStepGoal(instantiatedUser)} average.`);

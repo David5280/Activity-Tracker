@@ -1,7 +1,5 @@
 const chai = require('chai');
 const expect = chai.expect;
-const User = require('../src/User.js');
-const UserRepository = require('../src/UserRepository');
 const Hydration = require('../src/Hydration.js');
 const HydrationRepository = require('../src/HydrationRepository')
 
@@ -69,10 +67,7 @@ describe('Hydration', function () {
   it('should return the amount of fluid intake for each day in a given week', function() {
     const hydrationRepository = new HydrationRepository('../data/sample-Hydration-data');
     const hydration = new Hydration(1)
-
-    hydrationRepository.getHydrationDataFromId(hydrationDataSample)   
-
-    expect(hydration.getDailyFluidIntakeByWeek(hydrationDataSample, '06/05/2019')).to.eql([64, 80, 39, 40, 65, 84, 33])
+    expect(hydration.getDailyFluidIntakeByWeek(hydrationDataSample, 5)).to.eql([64, 80, 39, 40, 65])
   })
 })
 

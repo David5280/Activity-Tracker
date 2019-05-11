@@ -16,15 +16,14 @@ class Hydration {
     });
     return dateData.numOunces
   }
-  getDailyFluidIntakeByWeek(user, date) {
+  getDailyFluidIntakeByWeek(user, index) {
     let weeklyFluids = [];
-    for(let i = 0; i < 7; i++) {
+    for(let i = index - 5; i < index; i++) {
       weeklyFluids.push(user.hydrationData[i].numOunces)
     }
     return weeklyFluids;
   }
 }
 if(typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-  var moment = require('moment');
   module.exports = Hydration;
 }
