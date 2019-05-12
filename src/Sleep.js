@@ -1,6 +1,7 @@
 class Sleep {
-  constructor() {
-
+  constructor(userId, sleepData) {
+    this.id = userId;
+    this.sleepData = sleepData;
   }
 
   getAverageSleepHours(user) {
