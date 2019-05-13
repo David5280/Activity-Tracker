@@ -146,8 +146,8 @@ describe('SleepRepository', function() {
     expect(sleepRepository.getTotalAverageSleepQuality(sampleSleepData)).to.equal(3.228571428571428)
 
   })
-  it('should get users whose average sleep quality for any given week is above 3', function() {
+  it('should get userIDs whose average sleep quality for any given week is above 3', function() {
     const sleepRepository = new SleepRepository('../data/sleep');
-    expect(sleepRepository.getSleepQualityAboveThree(sampleSleepData, '06/05/2019')).to.eql([1, 2])
+    expect(sleepRepository.getSleepQualityAboveThree(sampleSleepData, '06/05/2019')).to.eql([1, 3])
   })
 });
