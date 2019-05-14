@@ -112,5 +112,5 @@ describe('Sleep', function() {
   it('should get a weeks worth of sleep Quality by the date', function() {
     const sleep = new Sleep();
     expect(sleep.getDailySleepQualityByWeek(sampleSleepData, '19/05/2019')).to.eql([1.7, 3.2, 2, 2.9, 4.2, 4.4, 2.5]);
-  })
+  });
 })
