@@ -67,7 +67,7 @@ describe('Hydration', function () {
   it('should return the amount of fluid intake for each day in a given week', function() {
     const hydrationRepository = new HydrationRepository('../data/sample-Hydration-data');
     const hydration = new Hydration(1)
-    expect(hydration.getDailyFluidIntakeByWeek(hydrationDataSample, 5)).to.eql([64, 80, 39, 40, 65])
+    expect(hydration.getDailyFluidIntakeByWeek(hydrationDataSample, 7)).to.eql([64, 80, 39, 40, 65, 84, 33])
   })
 })
 

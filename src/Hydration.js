@@ -18,7 +18,7 @@ class Hydration {
   }
   getDailyFluidIntakeByWeek(user, index) {
     let weeklyFluids = [];
-    for (let i = index - 5; i < index; i++) {
+    for (let i = index - 7; i < index; i++) {
       weeklyFluids.push(user.hydrationData[i].numOunces)
     }
     return weeklyFluids;
