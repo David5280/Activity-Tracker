@@ -11,10 +11,16 @@
   <body id ='body'>
     <header>
       <h1>ACTIVITY <span id='header-h1__accent'>TRACK</span>ER</h1>
+      <div id='header-todays-date'></div>
       <input type='image' src='../images/logo.png' alt='logo' id='header-logo'>
     </header>
     <main>
+      <section class='main-widget-hydration'>
 
+        <div class='main-graph-wrapper'>
+          <canvas id='hydration-bar-graph' class='chart'></canvas>
+        </div>
+      </section>
     </main>
     <footer>
         <div class='footer-greeting-js'></div>
@@ -26,6 +32,7 @@
         <a href='www.linkedin.com'><img alt ='linkedin logo' src='../images/linkedin.svg' class='footer-socialmedia'></a>
       </div>
     </footer>
+      <script src="../node_modules/chart.js/dist/Chart.js"></script>
       <script type='text/javascript' src='../data/users.js'></script>
       <script type='text/javascript' src='../data/hydration.js'></script>
       <script type='text/javascript' src='../data/sleep.js'></script>
