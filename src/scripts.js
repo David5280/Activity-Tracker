@@ -1,7 +1,6 @@
 const userRepository = new UserRepository()
 const hydrationRepository = new HydrationRepository();
 const sleepRepository = new SleepRepository();
-var ctx = $('#hydration-bar-graph');
 
 
 const users = userRepository.instantiateUsers();
@@ -11,7 +10,6 @@ const sleepers = sleepRepository.instantiateSleepers();
 let date = new Date();
 let todaysDate = (("0" + date.getDate()).slice(-2)) + "/" + (("0" + (date.getMonth() + 1)).slice(-2)) + "/" + (date.getFullYear());
 
-console.log(date.getDay() + 4)
 
 const getDayOfWeek = (days = 0) => {
   const fixedDate = date.setDate(date.getDate() + days);
@@ -67,6 +65,11 @@ let averageSleepHours = instantiatedSleeper.getAverageSleepHours(instantiatedSle
 
 let averageSleepQuality = instantiatedSleeper.getAverageSleepQuality(instantiatedSleeper)
 
+let totalAverageSleepQuality = sleepRepository.getTotalAverageSleepQuality(sleepers)
+
+
+
+
 let yesterday = getDayOfWeek(-1)
 let twoDaysAgo =  getDayOfWeek(-1)
 let threeDaysAgo =  getDayOfWeek(-1)
@@ -75,33 +78,70 @@ let fiveDaysAgo =  getDayOfWeek(-1)
 let sixDaysAgo =  getDayOfWeek(-1)
 let sevenDaysAgo =  getDayOfWeek(-1)
 
-console.log(yesterday)
-console.log(twoDaysAgo)
-console.log(threeDaysAgo)
-console.log(fourDaysAgo)
-console.log(fiveDaysAgo)
-console.log(sixDaysAgo)
-console.log(sevenDaysAgo)
 
-
-
-
-console.log(instantiatedWater)
-var myChart = new Chart(ctx, {
+new Chart($('#hydration-bar-graph'), {
   type: 'bar',
   data: {
     labels: [sevenDaysAgo ,sixDaysAgo, fiveDaysAgo, fourDaysAgo, threeDaysAgo, twoDaysAgo, yesterday],
     datasets: [{
-      label: 'One week ago',
-      label: 'Six days ago',
+      label: 'Past Days',
       data: instantiatedWater.getDailyFluidIntakeByWeek(instantiatedWater, hydrationIndex),
       backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)'
+        'rgba(255, 99, 132)',
+        'rgba(54, 162, 235)',
+        'rgba(255, 206, 86)',
+        'rgba(75, 192, 192)',
+        'rgba(153, 102, 255)',
+        'rgba(255, 159, 64)',
+        'rgba(234, 3, 222)'
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+        
+      ],
+      borderWidth: 3
+    }]
+  },
+  options: {
+    title: {
+      display: true,
+      text: 'Water Consumption this Week (Oz)',
+      fontColor: 'black',
+      fontSize: 16
+    },  
+    legend: {
+      display: false
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
+  }
+});
+
+new Chart($('#sleep-bar-graph'), {
+  type: 'bar',
+  data: {
+    labels: [sevenDaysAgo ,sixDaysAgo, fiveDaysAgo, fourDaysAgo, threeDaysAgo, twoDaysAgo, yesterday],
+    datasets: [{
+      label: 'Past Days',
+      data: sleepHoursByWeek,
+      backgroundColor: [
+        'rgba(255, 99, 132)',
+        'rgba(54, 162, 235)',
+        'rgba(255, 206, 86)',
+        'rgba(75, 192, 192)',
+        'rgba(153, 102, 255)',
+        'rgba(255, 159, 64)',
+        'rgba(234, 3, 222)'
       ],
       borderColor: [
         'rgba(255, 99, 132, 1)',
@@ -117,12 +157,14 @@ var myChart = new Chart(ctx, {
   options: {
     title: {
       display: true,
-      text: 'Water Consumption this Week (Oz)',
-      fontColor: 'black'
+      text: 'Hours Slept Per Day in a Week',
+      fontColor: 'black',
+      fontSize: 16
     },  
     legend: {
       display: false
     },
+    responsive: true,
     scales: {
       yAxes: [{
         ticks: {
@@ -133,8 +175,41 @@ var myChart = new Chart(ctx, {
   }
 });
 
+
+new Chart($('#sleep-donut'), {
+    type: "doughnut",
+    data: {
+        datasets: [{
+            backgroundColor: [
+            "#3366CC",
+            "#DC3912",
+            "#FF9900",
+            "#109618",
+            "#990099",
+            "#3B3EAC"],
+            hoverBackgroundColor: [
+            "#3366CC",
+            "#DC3912",
+            "#FF9900",
+            "#109618",
+            "#990099",
+            "#3B3EAC"
+            ],
+            data: [
+            Number(averageSleepQuality).toFixed(2),
+            Number(totalAverageSleepQuality).toFixed(2)
+            ]
+        }],
+        labels: [
+          "Your Average Sleep Quality",
+          "All Users Average Sleep Quality"
+        ]
+    }
+});
+
+
 $(document).ready(() => {
-  $('main').append( 
+  $('main').prepend( 
     "<section class='main-widget'>" +
       `<p class='main-widget__address'>Address: ${instantiatedUser.address} </p>` +
       `<p class='main-widget__email'>Email: ${instantiatedUser.email} </p>` +
@@ -143,15 +218,12 @@ $(document).ready(() => {
     "</section> "
   )
   $('.main-widget-hydration').append( 
-    `<p class='main-widget__'>Number of Oz Today: ${fluidIntakeByDate} </p>`
+    `<p class='main-widget__'><h4 class="oz-heading">Number of Oz Today:</h4> <span class='oz-styling'>${fluidIntakeByDate}</span> </p>`
   )
-  $('main').append( 
-    "<section class='main-widget'>" +
-      `<p class='main-widget__'>Today's Sleep Stats:<br /> Quality: ${sleepQualityByDate}<br /> Hours Slept: ${sleepJoursByDate} </p>` +
-      `<p class='main-widget__'>This Week's Sleep Stats: ${sleepHoursByWeek} </p>` +
-      `<p class='main-widget__'>All Time Averages:<br />  Quality: ${Number(averageSleepQuality).toFixed(2)}  <br />  Hours Slept: ${Number(averageSleepHours).toFixed(2)} </p>` +
-    "</section> "
+  $('.thingy').append( 
+    `<p class='main-widget__'><h4 class="oz-heading">Today's Sleep Stats:</h4><div class="sleep-data-styling">Hours Slept: ${sleepJoursByDate}  <br> Quality: ${sleepQualityByDate}  </div> </p>`
   )
+  
   $('.footer-greeting-js').append(`Hello, ${instantiatedUser.getFirstName()}!  Your daily step goal is ${compareStepGoal(instantiatedUser)} average.`);
 });
 
