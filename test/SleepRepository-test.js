@@ -1,6 +1,5 @@
 const chai = require('chai');
 const expect = chai.expect;
-const Sleep = require('../src/Sleep.js');
 const SleepRepository = require('../src/SleepRepository')
 
 
