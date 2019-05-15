@@ -149,9 +149,9 @@ describe('SleepRepository', function() {
   //   const sleepRepository = new SleepRepository('../data/sleep');
   //   expect(sleepRepository.getSleepQualityAboveThree('13/05/2019')).to.eql([1, 3])
   // })
-  it('should get the person or people who slept the most on any given day', function () {
-    const sleepRepository = new SleepRepository('../data/sleep');
-    expect(sleepRepository.getLaziestPerson(sampleSleepData, '11/05/2019')).to.eql(2)
+  // it('should get the person or people who slept the most on any given day', function () {
+  //   const sleepRepository = new SleepRepository('../data/sleep');
+  //   expect(sleepRepository.getLaziestPerson(sampleSleepData, '11/05/2019')).to.eql(2)
 
-  })
+  // })
 });

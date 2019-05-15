@@ -96,12 +96,13 @@ new Chart($('#hydration-bar-graph'), {
         'rgba(234, 3, 222)'
       ],
       borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)'
+        'rgba(255, 99, 132)',
+        'rgba(54, 162, 235)',
+        'rgba(255, 206, 86)',
+        'rgba(75, 192, 192)',
+        'rgba(153, 102, 255)',
+        'rgba(255, 159, 64)',
+        'rgba(234, 3, 222)'
         
       ],
       borderWidth: 3
@@ -144,12 +145,13 @@ new Chart($('#sleep-bar-graph'), {
         'rgba(234, 3, 222)'
       ],
       borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)'
+        'rgba(255, 99, 132)',
+        'rgba(54, 162, 235)',
+        'rgba(255, 206, 86)',
+        'rgba(75, 192, 192)',
+        'rgba(153, 102, 255)',
+        'rgba(255, 159, 64)',
+        'rgba(234, 3, 222)'
       ],
       borderWidth: 3
     }]
@@ -157,7 +159,7 @@ new Chart($('#sleep-bar-graph'), {
   options: {
     title: {
       display: true,
-      text: 'Hours Slept Per Day in a Week',
+      text: 'Hours Slept This Week',
       fontColor: 'black',
       fontSize: 16
     },  
@@ -177,38 +179,41 @@ new Chart($('#sleep-bar-graph'), {
 
 
 new Chart($('#sleep-donut'), {
-    type: "doughnut",
-    data: {
-        datasets: [{
-            backgroundColor: [
-            "#3366CC",
-            "#DC3912",
-            "#FF9900",
-            "#109618",
-            "#990099",
-            "#3B3EAC"],
-            hoverBackgroundColor: [
-            "#3366CC",
-            "#DC3912",
-            "#FF9900",
-            "#109618",
-            "#990099",
-            "#3B3EAC"
-            ],
-            data: [
-            Number(averageSleepQuality).toFixed(2),
-            Number(totalAverageSleepQuality).toFixed(2)
-            ]
-        }],
-        labels: [
-          "Your Average Sleep Quality",
-          "All Users Average Sleep Quality"
-        ]
-    }
+  type: "doughnut",
+  data: {
+    datasets: [{
+      backgroundColor: [
+        "#3366CC",
+        "#DC3912",
+        "#FF9900",
+        "#109618",
+        "#990099",
+        "#3B3EAC"],
+      hoverBackgroundColor: [
+        "#3366CC",
+        "#DC3912",
+        "#FF9900",
+        "#109618",
+        "#990099",
+        "#3B3EAC"
+      ],
+      data: [
+        Number(averageSleepQuality).toFixed(2),
+        Number(totalAverageSleepQuality).toFixed(2)
+      ]
+    }],
+    labels: [
+      "Your Average Sleep Quality",
+      "All Users Average Sleep Quality"
+    ]
+  }
 });
 
 
 $(document).ready(() => {
+
+  $('#header-todays-date').append(todaysDate);
+
   $('main').prepend( 
     "<section class='main-widget'>" +
       `<p class='main-widget__address'>Address: ${instantiatedUser.address} </p>` +
@@ -218,12 +223,12 @@ $(document).ready(() => {
     "</section> "
   )
   $('.main-widget-hydration').append( 
-    `<p class='main-widget__'><h4 class="oz-heading">Number of Oz Today:</h4> <span class='oz-styling'>${fluidIntakeByDate}</span> </p>`
+    `<p class='main-widget__'><h4 class="oz-heading center">Number of Oz Today:</h4> <span class='oz-styling'>${fluidIntakeByDate}</span> </p>`
   )
-  $('.thingy').append( 
-    `<p class='main-widget__'><h4 class="oz-heading">Today's Sleep Stats:</h4><div class="sleep-data-styling">Hours Slept: ${sleepJoursByDate}  <br> Quality: ${sleepQualityByDate}  </div> </p>`
-  )
+  $(`<p class='main-widget__'><h4 class="oz-heading center">Today's Sleep Stats:</h4><div class="sleep-data-styling">Hours Slept: ${sleepJoursByDate}  <br> Quality: ${sleepQualityByDate} / 5  </div> </p>`).insertAfter('#sleep-bar-graph')
+  // `<p class='main-widget__'><h4 class="oz-heading">Today's Sleep Stats:</h4><div class="sleep-data-styling">Hours Slept: ${sleepJoursByDate}  <br> Quality: ${sleepQualityByDate}  </div> </p>`
   
-  $('.footer-greeting-js').append(`Hello, ${instantiatedUser.getFirstName()}!  Your daily step goal is ${compareStepGoal(instantiatedUser)} average.`);
+  
+  $('.footer-greeting-js').append(`Hello, <span id='footer-user-name'>${instantiatedUser.getFirstName()}</span>!  Your daily step goal is ${compareStepGoal(instantiatedUser)} average.`);
 });
 
