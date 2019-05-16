@@ -4,6 +4,7 @@ class UserRepository {
     this.userData = this.findFilepath(dataFilepath)
 
   }
+  
   getUserDataFromId(id) {
     return this.userData.find(user => user.id === id);
   }

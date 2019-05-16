@@ -7,6 +7,7 @@ class User {
     this.strideLength = userData.strideLength;
     this.dailyStepGoal = userData.dailyStepGoal;
   }
+
   getFirstName() {
     return this.name.split(' ')[0];
   }
