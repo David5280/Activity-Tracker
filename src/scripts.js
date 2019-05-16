@@ -13,6 +13,11 @@ const userHydration = hydrationRepository.instantiateHydration();
 const userSleep = sleepRepository.instantiateSleepers();
 const userActivity = activityRepository.instantiateWalkers();
 
+const user = userRepository.getUserDataFromId(randomId())
+const instantiatedUser = users.find(item => item.id === user.id)
+const instantiatedWater = userHydration.find(item => item.id === instantiatedUser.id)
+const instantiatedSleeper = userSleep.find(item => item.id === instantiatedUser.id)
+const instantiatedWalker = userActivity.find(item => item.id === instantiatedUser.id)
 const date = new Date();
 const todaysDate = (("0" + date.getDate()).slice(-2)) + "/" + (("0" + (date.getMonth() + 1)).slice(-2)) + "/" + (date.getFullYear());
 const yesterdaysDate =  (("0" + date.getDate()).slice(-2) - 1 ) + "/" + (("0" + (date.getMonth() + 1)).slice(-2)) + "/" + (date.getFullYear())
@@ -37,13 +42,6 @@ const getDayOfWeek = (days = 0) => {
   }
   return day;
 }
-
-const user = userRepository.getUserDataFromId(randomId())
-
-const instantiatedUser = users.find(item => item.id === user.id)
-const instantiatedWater = userHydration.find(item => item.id === instantiatedUser.id)
-const instantiatedSleeper = userSleep.find(item => item.id === instantiatedUser.id)
-const instantiatedWalker = userActivity.find(item => item.id === instantiatedUser.id)
 
 const hydrationIndex = instantiatedWater.hydrationData.findIndex(item => item.date === todaysDate);
 const fluidIntakeByDate = instantiatedWater.getFluidIntakeByDate(instantiatedWater, todaysDate);
@@ -108,6 +106,7 @@ new Chart(
         fontColor: 'black',
         fontSize: 16
       },  
+      responsive: true,
       legend: {
         display: false
       },
@@ -151,6 +150,7 @@ new Chart(
       }]
     },
     options: {
+      responsive: true,
       title: {
         display: true,
         text: 'Hours Slept This Week',
@@ -232,6 +232,7 @@ new Chart(
       }]
     },
     options: {
+      responsive: true,
       title: {
         display: true,
         text: 'This Weeks Activity',
@@ -271,9 +272,10 @@ new Chart(
       }]
     },
     options: {
+      responsive: true,
       title: {
         display: true,
-        text: 'This Weeks Activity',
+        text: 'Steps This Week',
         fontColor: 'black',
         fontSize: 16
       },  
@@ -314,7 +316,6 @@ $(document).ready(() => {
   <span class='bold'>Average Flights of Stairs:</span> ${totalAverageStairs}</p>`);
 
   $('.main-widget-hydration').append( 
-    `<h3 class='main-widget-title'></h3>` +
     `<p class='main-widget'>
     <h4 class=" center">Number of Oz Today:</h4>
     <span class='oz-styling'>${fluidIntakeByDate}</span> 
