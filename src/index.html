@@ -12,14 +12,26 @@
     <header>
       <h1>ACTIVITY <span id='header-h1__accent'>TRACK</span>ER</h1>
       <div id='header-todays-date'></div>
-      <input type='image' src='../images/logo.png' alt='logo' id='header-logo'>
-    </header>
-    <main>
+      <div class="header-dropdown">
+          <button class="header-dropbtn">More Info</button>
+        </div>
+        <input type='image' src='../images/logo.png' alt='logo' id='header-logo'>
+      </header>
+      <main>
+        <div id="info" class="dropdown-content">
+          <section class="community-stats hide"></section>
+          <section class="user-info hide"></section>
+        </div>
       <section class='main-widget-hydration'>
         <div class='main-graph-wrapper'>
           <canvas id='hydration-bar-graph' class='chart'></canvas>
         </div>
       </section>
+      <section class='main-widget-activity'>
+          <div class='main-graph-wrapper'></div> 
+          <canvas id='activity-line-graph' class='chart'></canvas>    
+          <canvas id='steps-line-graph' class='chart'></canvas>    
+        </section>
       <section class='main-widget-sleep'>
         <div class='main-graph-wrapper'>
           <canvas id='sleep-bar-graph' class='chart'></canvas>
@@ -37,19 +49,20 @@
         <a href='www.linkedin.com'><img alt ='linkedin logo' src='../images/linkedin.svg' class='footer-socialmedia'></a>
       </div>
     </footer>
-      <script src="../node_modules/chart.js/dist/Chart.js"></script>
-      <script type='text/javascript' src='../data/users.js'></script>
-      <script type='text/javascript' src='../data/hydration.js'></script>
-      <script type='text/javascript' src='../data/sleep.js'></script>
-      <script type='text/javascript' src='UserRepository.js'></script>
-      <script type='text/javascript' src='../data/sample-user.js'></script>
-      <script type='text/javascript' src='../data/sample-data.js'></script>
-      <script type='text/javascript' src='User.js'></script>
-      <script type='text/javascript' src='HydrationRepository.js'></script>
-      <script type='text/javascript' src='Hydration.js'></script>
-      <script type='text/javascript' src='SleepRepository.js'></script>
-      <script type='text/javascript' src='Sleep.js'></script>
-
-      <script type='text/javascript' src='scripts.js'></script>
+    <script src="../node_modules/chart.js/dist/Chart.js"></script>
+    <script type='text/javascript' src='../data/users.js'></script>
+    <script type='text/javascript' src='../data/hydration.js'></script>
+    <script type='text/javascript' src='../data/sleep.js'></script>
+    <script type='text/javascript' src='../data/activity.js'></script>
+    <script type='text/javascript' src='UserRepository.js'></script>
+    <script type='text/javascript' src='User.js'></script>
+    <script type='text/javascript' src='HydrationRepository.js'></script>
+    <script type='text/javascript' src='Hydration.js'></script>
+    <script type='text/javascript' src='SleepRepository.js'></script>
+    <script type='text/javascript' src='Sleep.js'></script>
+    <script type='text/javascript' src="ActivityRepository.js"></script>
+    <script type='text/javascript' src="Activity.js"></script>
+    
+    <script type='text/javascript' src='scripts.js'></script>
   </body>
 </html>

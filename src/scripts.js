@@ -1,15 +1,19 @@
 const userRepository = new UserRepository()
 const hydrationRepository = new HydrationRepository();
 const sleepRepository = new SleepRepository();
+const activityRepository = new ActivityRepository();
 
 
 const users = userRepository.instantiateUsers();
 const waters = hydrationRepository.instantiateHydration();
 const sleepers = sleepRepository.instantiateSleepers();
+const walkers = activityRepository.instantiateWalkers();
+
 
 let date = new Date();
 let todaysDate = (("0" + date.getDate()).slice(-2)) + "/" + (("0" + (date.getMonth() + 1)).slice(-2)) + "/" + (date.getFullYear());
 
+let yesterdaysDate =  (("0" + date.getDate()).slice(-2) - 1 ) + "/" + (("0" + (date.getMonth() + 1)).slice(-2)) + "/" + (date.getFullYear())
 
 const getDayOfWeek = (days = 0) => {
   const fixedDate = date.setDate(date.getDate() + days);
@@ -51,24 +55,34 @@ let instantiatedWater = waters.find(item => item.id === instantiatedUser.id)
 
 let instantiatedSleeper = sleepers.find(item => item.id === instantiatedUser.id)
 
+let instantiatedWalker = walkers.find(item => item.id === instantiatedUser.id)
+
 let hydrationIndex = instantiatedWater.hydrationData.findIndex(item => item.date === todaysDate);
 
 let fluidIntakeByDate = instantiatedWater.getFluidIntakeByDate(instantiatedWater, todaysDate);
 
 let sleepQualityByDate = instantiatedSleeper.getSleepQualityByDate(instantiatedSleeper, todaysDate)
 
-let sleepJoursByDate = instantiatedSleeper.getSleepHoursByDate(instantiatedSleeper, todaysDate)
+let sleepHoursByDate = instantiatedSleeper.getSleepHoursByDate(instantiatedSleeper, todaysDate)
 
 let sleepHoursByWeek = instantiatedSleeper.getDailySleepHoursByWeek(instantiatedSleeper, todaysDate)
-
-let averageSleepHours = instantiatedSleeper.getAverageSleepHours(instantiatedSleeper)
 
 let averageSleepQuality = instantiatedSleeper.getAverageSleepQuality(instantiatedSleeper)
 
 let totalAverageSleepQuality = sleepRepository.getTotalAverageSleepQuality(sleepers)
 
+let yesterdaySteps = instantiatedWalker.getStepsByDate(instantiatedWalker, yesterdaysDate).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+let yesterdaysActivity = instantiatedWalker.getMinutesActiveByDate(instantiatedWalker, yesterdaysDate)
+
+let yesterdayStairClimb = instantiatedWalker.getStairsClimbedByDate(instantiatedWalker, yesterdaysDate)
+
+let distanceInMiles = instantiatedWalker.getMilesWalked(instantiatedWalker, yesterdaysDate)
 
 
+let totalAverageStairs = activityRepository.getAverageStairsClimbed(walkers, yesterdaysDate)
+let totalAverageActivity = activityRepository.getAverageMinutesActive(walkers, yesterdaysDate)
+let totalAverageSteps = activityRepository.getAverageSteps(walkers, yesterdaysDate).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
 let yesterday = getDayOfWeek(-1)
 let twoDaysAgo =  getDayOfWeek(-1)
@@ -131,7 +145,7 @@ new Chart($('#hydration-bar-graph'), {
 new Chart($('#sleep-bar-graph'), {
   type: 'bar',
   data: {
-    labels: [sevenDaysAgo ,sixDaysAgo, fiveDaysAgo, fourDaysAgo, threeDaysAgo, twoDaysAgo, yesterday],
+    labels: [sevenDaysAgo, sixDaysAgo, fiveDaysAgo, fourDaysAgo, threeDaysAgo, twoDaysAgo, yesterday],
     datasets: [{
       label: 'Past Days',
       data: sleepHoursByWeek,
@@ -179,7 +193,7 @@ new Chart($('#sleep-bar-graph'), {
 
 
 new Chart($('#sleep-donut'), {
-  type: "doughnut",
+  type: "pie",
   data: {
     datasets: [{
       backgroundColor: [
@@ -209,26 +223,122 @@ new Chart($('#sleep-donut'), {
   }
 });
 
+new Chart($('#activity-line-graph'), {
+  type: 'line',
+  data: {
+    labels: [sevenDaysAgo, sixDaysAgo, fiveDaysAgo, fourDaysAgo, threeDaysAgo, twoDaysAgo, yesterday],
+    datasets: [{
+      label: 'Minutes Active',
+      data: instantiatedWalker.getMinutesActiveForWeek(instantiatedWalker, todaysDate),
+      backgroundColor: [
+        'rgba(255, 255, 255, 0.1)',
+        'rgba(255, 0, 255, 0.1)'
+      ],
+      borderColor: [
+        'rgba(255, 0, 0, 0.5)',
+        'rgba(255, 255, 0, 0.5)',
+      ],
+      borderWidth: 3
+    }, {
+      label: 'Flights of Stairs Climbed',
+      data: instantiatedWalker.getStairsClimbedForWeek(instantiatedWalker, todaysDate),
+      backgroundColor: [
+        // 'rgba(255, 255, 255, 0.1)',
+      ],
+      borderColor: [
+        // 'rgba(255, 0, 0, 0.5)',
+        
+      ],
+      borderWidth: 3,
+
+    }]
+  },
+  options: {
+    title: {
+      display: true,
+      text: 'This Weeks Activity',
+      fontColor: 'black',
+      fontSize: 16
+    },  
+    legend: {
+      display: true
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
+  }
+});
+new Chart($('#steps-line-graph'), {
+  type: 'line',
+  data: {
+    labels: [sevenDaysAgo, sixDaysAgo, fiveDaysAgo, fourDaysAgo, threeDaysAgo, twoDaysAgo, yesterday],
+    datasets: [{
+      label: 'Steps Taken',
+      data: instantiatedWalker.getStepsSteppedForWeek(instantiatedWalker, todaysDate),
+      backgroundColor: [
+        'rgba(0, 0, 255, .5)',
+      ],
+      borderColor: [
+        'rgba(255, 99, 132)',
+    
+      ] ,
+      borderWidth: 3,
+
+    }]
+  },
+  options: {
+    title: {
+      display: true,
+      text: 'This Weeks Activity',
+      fontColor: 'black',
+      fontSize: 16
+    },  
+    legend: {
+      display: true
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
+  }
+});
 
 $(document).ready(() => {
-
   $('#header-todays-date').append(todaysDate);
-
-  $('main').prepend( 
-    "<section class='main-widget'>" +
-      `<p class='main-widget__address'>Address: ${instantiatedUser.address} </p>` +
-      `<p class='main-widget__email'>Email: ${instantiatedUser.email} </p>` +
-      `<p class='main-widget__Stride'>Stride: ${instantiatedUser.strideLength} </p>` +
-      `<p class='main-widget__daily-step'>Daily Step Goal: ${instantiatedUser.dailyStepGoal}</p>` +
-    "</section> "
-  )
-  $('.main-widget-hydration').append( 
-    `<p class='main-widget__'><h4 class="oz-heading center">Number of Oz Today:</h4> <span class='oz-styling'>${fluidIntakeByDate}</span> </p>`
-  )
-  $(`<p class='main-widget__'><h4 class="oz-heading center">Today's Sleep Stats:</h4><div class="sleep-data-styling">Hours Slept: ${sleepJoursByDate}  <br> Quality: ${sleepQualityByDate} / 5  </div> </p>`).insertAfter('#sleep-bar-graph')
-  // `<p class='main-widget__'><h4 class="oz-heading">Today's Sleep Stats:</h4><div class="sleep-data-styling">Hours Slept: ${sleepJoursByDate}  <br> Quality: ${sleepQualityByDate}  </div> </p>`
+  
+  $('.header-dropbtn').click(function () {
+    $('.community-stats, .user-info, .main-widget-sleep, .main-widget-hydration, .main-widget-activity').toggleClass('hide')
+    let text = $('.header-dropbtn').text();
+    $('.header-dropbtn').text(text === 'More Info' ? 'My Dashboard' : 'More Info')
+  })
   
   
   $('.footer-greeting-js').append(`Hello, <span id='footer-user-name'>${instantiatedUser.getFirstName()}</span>!  Your daily step goal is ${compareStepGoal(instantiatedUser)} average.`);
+  
+  $('.user-info').append( 
+  `<p class='main-widget__address'>Address: ${instantiatedUser.address} </p>` +
+  `<p class='main-widget__email'>Email: ${instantiatedUser.email} </p>` +
+  `<p class='main-widget__Stride'>Stride: ${instantiatedUser.strideLength} </p>` +
+  `<p class='main-widget__daily-step'>Daily Step Goal: ${instantiatedUser.dailyStepGoal}</p>` )
+
+  $('.community-stats').append(`<p class='main-widget' id='community-stats'><h4 class=" center">Community Stats:</h4>Average User Steps: ${totalAverageSteps} <br> Average Minutes Active: ${totalAverageActivity} <br>
+  Average Flights of Stairs: ${totalAverageStairs}</p>`)
 });
+
+
+$('.main-widget-hydration').append( 
+  `<p class='main-widget'><h4 class=" center">Number of Oz Today:</h4> <span class='oz-styling'>${fluidIntakeByDate}</span> </p>`
+)
+
+$('.main-widget-activity').append(`<p class='main-widget'><h4 class="center">Latest Activity Stats:</h4><div class="sleep-data-styling">Distance (mi) walked yesterday: ${Number(distanceInMiles).toFixed(1)} </div> </p>`)
+
+
+$(`<p class='main-widget'><h4 class=" center">Today's Sleep Stats:</h4><div class="sleep-data-styling">Hours Slept: ${sleepHoursByDate}  <br> Quality: ${sleepQualityByDate} / 5  </div> </p>`).insertAfter('#sleep-bar-graph')
 
