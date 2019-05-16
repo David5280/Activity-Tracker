@@ -23,7 +23,7 @@ Our Activity Tracker Application (aka Fit Lit) is a place for your everyday Fit 
   
 ## ScreenShots 
 
-![Activity Tracker Dashboard](https://i.postimg.cc/svKpR0gj/activity-tracker-dashboard.png)
+![Activity Tracker Dashboard](https://i.postimg.cc/FKtpbw2S/activity-tracker-dashboard.png)
 ![Activity Tracker Info](https://i.postimg.cc/sMN7MQWb/activity-tracker-info.png)
 
 ## Set Up
