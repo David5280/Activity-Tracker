@@ -3,17 +3,14 @@ const hydrationRepository = new HydrationRepository();
 const sleepRepository = new SleepRepository();
 const activityRepository = new ActivityRepository();
 
-
 const users = userRepository.instantiateUsers();
 const waters = hydrationRepository.instantiateHydration();
 const sleepers = sleepRepository.instantiateSleepers();
 const walkers = activityRepository.instantiateWalkers();
 
-
-let date = new Date();
-let todaysDate = (("0" + date.getDate()).slice(-2)) + "/" + (("0" + (date.getMonth() + 1)).slice(-2)) + "/" + (date.getFullYear());
-
-let yesterdaysDate =  (("0" + date.getDate()).slice(-2) - 1 ) + "/" + (("0" + (date.getMonth() + 1)).slice(-2)) + "/" + (date.getFullYear())
+const date = new Date();
+const todaysDate = (("0" + date.getDate()).slice(-2)) + "/" + (("0" + (date.getMonth() + 1)).slice(-2)) + "/" + (date.getFullYear());
+const yesterdaysDate =  (("0" + date.getDate()).slice(-2) - 1 ) + "/" + (("0" + (date.getMonth() + 1)).slice(-2)) + "/" + (date.getFullYear())
 
 const getDayOfWeek = (days = 0) => {
   const fixedDate = date.setDate(date.getDate() + days);
@@ -39,58 +36,45 @@ const getDayOfWeek = (days = 0) => {
 
 
 
-var randomId = function generateRandomId() {
+const randomId = function generateRandomId() {
   return Math.ceil(Math.random() * 50);
 }
 
-var user = userRepository.getUserDataFromId(randomId())
+const user = userRepository.getUserDataFromId(randomId())
 function compareStepGoal(user) {
   return user.dailyStepGoal > userRepository.getAverageStepGoal() ? 'above' : 'below';
 }
 
 
-let instantiatedUser = users.find(item => item.id === user.id)
+const instantiatedUser = users.find(item => item.id === user.id)
+const instantiatedWater = waters.find(item => item.id === instantiatedUser.id)
+const instantiatedSleeper = sleepers.find(item => item.id === instantiatedUser.id)
+const instantiatedWalker = walkers.find(item => item.id === instantiatedUser.id)
 
-let instantiatedWater = waters.find(item => item.id === instantiatedUser.id)
+const hydrationIndex = instantiatedWater.hydrationData.findIndex(item => item.date === todaysDate);
+const fluidIntakeByDate = instantiatedWater.getFluidIntakeByDate(instantiatedWater, todaysDate);
 
-let instantiatedSleeper = sleepers.find(item => item.id === instantiatedUser.id)
+const sleepQualityByDate = instantiatedSleeper.getSleepQualityByDate(instantiatedSleeper, todaysDate)
+const sleepHoursByDate = instantiatedSleeper.getSleepHoursByDate(instantiatedSleeper, todaysDate)
+const sleepHoursByWeek = instantiatedSleeper.getDailySleepHoursByWeek(instantiatedSleeper, todaysDate)
+const averageSleepQuality = instantiatedSleeper.getAverageSleepQuality(instantiatedSleeper)
+const totalAverageSleepQuality = sleepRepository.getTotalAverageSleepQuality(sleepers)
 
-let instantiatedWalker = walkers.find(item => item.id === instantiatedUser.id)
+// const yesterdaySteps = instantiatedWalker.getStepsByDate(instantiatedWalker, yesterdaysDate).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+// const yesterdaysActivity = instantiatedWalker.getMinutesActiveByDate(instantiatedWalker, yesterdaysDate)
+// const yesterdayStairClimb = instantiatedWalker.getStairsClimbedByDate(instantiatedWalker, yesterdaysDate)
+const distanceInMiles = instantiatedWalker.getMilesWalked(instantiatedWalker, yesterdaysDate)
+const totalAverageStairs = activityRepository.getAverageStairsClimbed(walkers, yesterdaysDate)
+const totalAverageActivity = activityRepository.getAverageMinutesActive(walkers, yesterdaysDate)
+const totalAverageSteps = activityRepository.getAverageSteps(walkers, yesterdaysDate).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
-let hydrationIndex = instantiatedWater.hydrationData.findIndex(item => item.date === todaysDate);
-
-let fluidIntakeByDate = instantiatedWater.getFluidIntakeByDate(instantiatedWater, todaysDate);
-
-let sleepQualityByDate = instantiatedSleeper.getSleepQualityByDate(instantiatedSleeper, todaysDate)
-
-let sleepHoursByDate = instantiatedSleeper.getSleepHoursByDate(instantiatedSleeper, todaysDate)
-
-let sleepHoursByWeek = instantiatedSleeper.getDailySleepHoursByWeek(instantiatedSleeper, todaysDate)
-
-let averageSleepQuality = instantiatedSleeper.getAverageSleepQuality(instantiatedSleeper)
-
-let totalAverageSleepQuality = sleepRepository.getTotalAverageSleepQuality(sleepers)
-
-let yesterdaySteps = instantiatedWalker.getStepsByDate(instantiatedWalker, yesterdaysDate).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-
-let yesterdaysActivity = instantiatedWalker.getMinutesActiveByDate(instantiatedWalker, yesterdaysDate)
-
-let yesterdayStairClimb = instantiatedWalker.getStairsClimbedByDate(instantiatedWalker, yesterdaysDate)
-
-let distanceInMiles = instantiatedWalker.getMilesWalked(instantiatedWalker, yesterdaysDate)
-
-
-let totalAverageStairs = activityRepository.getAverageStairsClimbed(walkers, yesterdaysDate)
-let totalAverageActivity = activityRepository.getAverageMinutesActive(walkers, yesterdaysDate)
-let totalAverageSteps = activityRepository.getAverageSteps(walkers, yesterdaysDate).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-
-let yesterday = getDayOfWeek(-1)
-let twoDaysAgo =  getDayOfWeek(-1)
-let threeDaysAgo =  getDayOfWeek(-1)
-let fourDaysAgo =  getDayOfWeek(-1)
-let fiveDaysAgo =  getDayOfWeek(-1)
-let sixDaysAgo =  getDayOfWeek(-1)
-let sevenDaysAgo =  getDayOfWeek(-1)
+const yesterday = getDayOfWeek(-1)
+const twoDaysAgo =  getDayOfWeek(-1)
+const threeDaysAgo =  getDayOfWeek(-1)
+const fourDaysAgo =  getDayOfWeek(-1)
+const fiveDaysAgo =  getDayOfWeek(-1)
+const sixDaysAgo =  getDayOfWeek(-1)
+const sevenDaysAgo =  getDayOfWeek(-1)
 
 
 new Chart($('#hydration-bar-graph'), {
