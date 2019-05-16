@@ -305,12 +305,12 @@ $(document).ready(() => {
     `<h3 class='main-widget-title '><span class='bold'>Your Information</span></h3>` +
     `<p class='main-widget__address'><span class='bold'>Address:</span> ${instantiatedUser.address} </p>` +
   `<p class='main-widget__email'><span class='bold'>Email:</span> ${instantiatedUser.email} </p>` +
-  `<p class='main-widget__Stride'><span class='bold'>Stride:</span> ${instantiatedUser.strideLength} </p>` +
+  `<p class='main-widget__Stride'><span class='bold'>Stride:</span> ${instantiatedUser.strideLength} feet </p>` +
   `<p class='main-widget__daily-step'><span class='bold'>Daily Step Goal:</span> ${instantiatedUser.dailyStepGoal}</p>`);
 
-  $('.community-stats').append(`<h3 class='main-widget-title'>Community Statistics</h3>` + 
+  $('.community-stats').append(`<h3 class='main-widget-title'>Community Statistics (Per Day)</h3>` + 
   `<p class='main-widget' id='community-stats'>
-  <span class='bold'>Average User Steps:</span> ${totalAverageSteps} <br> <span class='bold'>Average Minutes Active:</span> ${totalAverageActivity} <br>
+  <span class='bold'>Average Steps:</span> ${totalAverageSteps} <br> <span class='bold'>Average Minutes Active:</span> ${totalAverageActivity} <br>
   <span class='bold'>Average Flights of Stairs:</span> ${totalAverageStairs}</p>`);
 
   $('.main-widget-hydration').append( 
